@@ -5,23 +5,49 @@ async function getWorks() {
         if (!response.ok) {
             throw new Error(`Response error: ${response.status}`);
         }
-        const json = await response.json();
-        console.log(json); 
+        const works = await response.json();
 
-        for (let i = 0; i < json.length; i++) {
-            setFilters(json[i]);
-        }
+        works.forEach(work => displayWork(work));
 
     } catch (error) {
         console.error(error.message);
     }
 }
 
-getWorks();
+function displayWork(work) {
+    const figure = document.createElement("figure");
+    figure.innerHTML = `
+        <img src="${work.imageUrl}" alt="${work.title}">
+        <figcaption>${work.title}</figcaption>
+    `;
+    document.querySelector("#gallery").append(figure);
+}
+
+async function getCategories() {
+    const url = "http://localhost:5678/api/categories";
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response error: ${response.status}`);
+        }
+        const categories = await response.json();
+
+        setFilters({ name: "Tous" });
+
+        
+        categories.forEach(category => setFilters(category));
+
+    } catch (error) {
+        console.error(error.message);
+    }
+}
 
 function setFilters(data) {
-    const figure = document.createElement("figure");
-    figure.innerHTML = `<img src="${data.imageUrl}" alt="${data.title}">
-                        <figcaption>${data.title}</figcaption>`;
-    document.querySelector("#gallery").append(figure); 
+    const div = document.createElement("div");
+    div.textContent = data.name;
+    div.classList.add("category-button"); 
+    document.querySelector("#div-container").append(div);
 }
+
+getWorks();
+getCategories();
