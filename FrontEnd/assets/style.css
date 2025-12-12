@@ -266,3 +266,54 @@ footer nav ul {
 	margin: 2em
 }
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
+}
+#edit-banner {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+    display: none;
+}
+
+
+
+.hidden {
+    display: none;
+}
+
+#edit-button {
+    border: none;
+    background: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 2%;
+    display: none;
+}
+.title-edit {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin-bottom: 20px; 
+	gap: 30px;
+}
+
+
+
+

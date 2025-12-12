@@ -10,6 +10,7 @@ async function getWorks() {
 
         works = await response.json(); 
         displayGallery(works);
+        //reçoit les projets et Affiche tous si papa tu regarde c'est moi qui a mis sa pour bien comprendre et m'en souvenir :D
 
     } catch (error) {
         console.error(error.message);
@@ -32,6 +33,8 @@ function displayWork(work) {
     document.querySelector("#gallery").append(figure);
 }
 
+//appel image et son text qui vas avec
+
 async function getCategories() {
     const url = "http://localhost:5678/api/categories";
     try {
@@ -39,6 +42,8 @@ async function getCategories() {
         if (!response.ok) {
             throw new Error(`Response error: ${response.status}`);
         }
+
+        //
 
         const categories = await response.json();
 
@@ -50,6 +55,8 @@ async function getCategories() {
         console.error(error.message);
     }
 }
+
+//chercher les catégories dans l’API
 
 function setFilterButton(category) {
     const div = document.createElement("div");
@@ -73,5 +80,39 @@ function applyFilter(categoryId) {
     }
 }
 
+//bouton de filtre
+
 getWorks();
 getCategories();
+
+//lance tout 
+
+function checkLoginStatus() {
+    const token = localStorage.getItem("token");
+    const loginLink = document.querySelector("nav ul li:nth-child(3) a");
+
+    if (token) {
+        document.querySelector("#edit-banner").style.display = "block";
+
+        // Cacher filtres
+        document.querySelector("#div-container").style.display = "none";
+
+        // Afficher bouton modifier
+        document.querySelector("#edit-button").style.display = "block";
+
+        // Transformer "login" en "logout"
+        loginLink.textContent = "logout";
+
+        loginLink.addEventListener("click", () => {
+            localStorage.removeItem("token");
+            window.location.reload();
+        });
+
+    } else {
+        document.querySelector("#edit-banner").style.display = "none";
+        document.querySelector("#edit-button").style.display = "none";
+        document.querySelector("#div-container").style.display = "flex";
+    }
+}
+
+checkLoginStatus();

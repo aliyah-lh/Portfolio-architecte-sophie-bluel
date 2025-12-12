@@ -1,5 +1,7 @@
 const loginForm = document.querySelector("#login form");
 
+//Trouve le formulaire de connexion dans la page
+
 loginForm.addEventListener("submit", async (e) => {
     e.preventDefault(); 
     const email = document.querySelector("#email").value;
@@ -13,6 +15,8 @@ loginForm.addEventListener("submit", async (e) => {
             },
             body: JSON.stringify({ email, password })
         });
+
+        //envoie au serveur
 
         if (response.ok) {
             const data = await response.json();
