@@ -1,5 +1,25 @@
+/**
+ * Liste globale des travaux récupérés depuis l'API.
+ * Type: Array<Object>
+ * Chaque élément contient { id, title, imageUrl, categoryId, ... }
+ * Initialisé vide et rempli par la fonction async getWorks().
+ */
 let works = []; 
 
+/**
+ * Récupère la liste des travaux depuis l'API et met à jour la galerie.
+ * Effectue une requête GET sur /api/works, met à jour la variable globale
+ * `works` puis appelle displayGallery(works).
+ *
+ * Side effects:
+ *  - met à jour la variable globale `works`
+ *  - modifie le DOM via displayGallery
+ *
+ * Throws: affiche une erreur dans la console si la requête échoue.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function getWorks() {
     const url = "http://localhost:5678/api/works";
     try {
@@ -10,13 +30,19 @@ async function getWorks() {
 
         works = await response.json(); 
         displayGallery(works);
-        //reçoit les projets et Affiche tous si papa tu regarde c'est moi qui a mis sa pour bien comprendre et m'en souvenir :D
 
     } catch (error) {
         console.error(error.message);
     }
 }
 
+/**
+ * Vide la galerie (`#gallery`) et affiche la liste de travaux fournie.
+ * Appelle displayWork pour chaque élément de la liste.
+ *
+ * @param {Array<Object>} list - Tableau d'objets work à afficher.
+ * @returns {void}
+ */
 function displayGallery(list) {
     const gallery = document.querySelector("#gallery");
     gallery.innerHTML = ""; 
@@ -24,6 +50,12 @@ function displayGallery(list) {
     list.forEach(work => displayWork(work));
 }
 
+/**
+ * Crée un élément <figure> pour un work et l'ajoute à la galerie.
+ *
+ * @param {Object} work - Objet de travail contenant au minimum { imageUrl, title }.
+ * @returns {void}
+ */
 function displayWork(work) {
     const figure = document.createElement("figure");
     figure.innerHTML = `
@@ -33,8 +65,16 @@ function displayWork(work) {
     document.querySelector("#gallery").append(figure);
 }
 
-//appel image et son text qui vas avec
-
+/**
+ * Récupère les catégories depuis l'API et crée les boutons de filtre.
+ * Ajoute également un bouton "Tous" avec id 0.
+ *
+ * Side effects:
+ *  - modifie le DOM en ajoutant des éléments dans `#div-container` via setFilterButton
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function getCategories() {
     const url = "http://localhost:5678/api/categories";
     try {
@@ -42,8 +82,6 @@ async function getCategories() {
         if (!response.ok) {
             throw new Error(`Response error: ${response.status}`);
         }
-
-        //
 
         const categories = await response.json();
 
@@ -56,8 +94,13 @@ async function getCategories() {
     }
 }
 
-//chercher les catégories dans l’API
-
+/**
+ * Crée un bouton de filtre pour une catégorie et l'ajoute dans `#div-container`.
+ * Le bouton déclenche applyFilter(category.id) au clic.
+ *
+ * @param {{id: number, name: string}} category - Objet catégorie retourné par l'API.
+ * @returns {void}
+ */
 function setFilterButton(category) {
     const div = document.createElement("div");
     div.textContent = category.name;
@@ -71,6 +114,13 @@ function setFilterButton(category) {
     document.querySelector("#div-container").append(div);
 }
 
+/**
+ * Filtre la variable globale `works` selon l'id de catégorie et met à jour la galerie.
+ * Si categoryId == 0, affiche tous les travaux.
+ *
+ * @param {number} categoryId - Identifiant de la catégorie à filtrer.
+ * @returns {void}
+ */
 function applyFilter(categoryId) {
     if (categoryId == 0) {
         displayGallery(works);
@@ -87,6 +137,18 @@ getCategories();
 
 //lance tout 
 
+/**
+ * Vérifie l'état de connexion en regardant la présence d'un token dans localStorage.
+ * Si l'utilisateur est connecté (token présent), affiche des contrôles d'édition
+ * et remplace le lien "login" par "logout" (qui supprime le token et recharge la page).
+ * Sinon remet l'interface en mode public (cacher les contrôles d'édition).
+ *
+ * Side effects:
+ *  - modifie le DOM (affichage de #edit-banner, #edit-button, #div-container)
+ *  - ajoute un listener sur le lien de navigation pour déconnexion
+ *
+ * @returns {void}
+ */
 function checkLoginStatus() {
     const token = localStorage.getItem("token");
     const loginLink = document.querySelector("nav ul li:nth-child(3) a");
@@ -116,3 +178,4 @@ function checkLoginStatus() {
 }
 
 checkLoginStatus();
+
