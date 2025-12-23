@@ -467,19 +467,25 @@ footer {
 }
 
 .upload-zone {
-    background: #E8F1F7;
-    padding: 30px;
-    text-align: center;
-    margin-bottom: 30px;
+    position: relative;
 }
+
+.upload-zone .preview {
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    margin: 0 auto;
+}
+
 
 .upload-zone input {
     margin-top: 10px;
 }
 
-.upload-zone p {
+.upload-zone p { 
     font-size: 10px;
     color: #444;
+	padding-bottom: 15px;
 }
 
 .modal-form label {
@@ -494,7 +500,7 @@ footer {
     margin-bottom: 20px;
     box-shadow: 0px 4px 14px rgba(0,0,0,0.09);
     border: none;
-    padding: 0 15px;
+    
 }
 .modal-form button {
     display: block;      
@@ -526,9 +532,10 @@ footer {
 }
 .upload-zone {
     background: #E8F1F7;
-    padding: 30px;
     text-align: center;
     margin-bottom: 30px;
+	margin-right: 105px;
+    margin-left: 105px;
 }
 
 .upload-zone i {
@@ -536,6 +543,7 @@ footer {
     color: #B9C5CC;
     margin-bottom: 15px;
     display: block;
+	padding-top: 15px;
 }
 
 .upload-zone input[type="file"] {
@@ -565,3 +573,7 @@ footer {
     margin-right: 6px; 
 }
 
+.position {
+	margin-left: 105px;
+	margin-right: 105px;
+}
