@@ -364,18 +364,25 @@ footer {
 }
 
 .btn-del-icon {
-    background-color: black; 
-    border: none;
-    width: 17px;            
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    width: 17px;
     height: 17px;
+
+    background-color: black;
+    border: none;
+    border-radius: 2px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 5px;              
-    right: 5px;
+
     cursor: pointer;
+    z-index: 10;
 }
+
 
 .btn-del-icon i {
     color: white;           
@@ -418,13 +425,18 @@ footer {
 .modal-gallery {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
+    margin-left: 105px;
+	margin-right: 105px;
     margin-bottom: 30px;
+	gap: 10px;
 }
 
 .modal-gallery figure {
     position: relative;
+    width: 76.86px;
+    height: 102.57px;
 }
+
 
 .upload-zone i {
     font-size: 60px;
@@ -434,10 +446,12 @@ footer {
 
 
 .modal-gallery img {
-    width: 100%;
-    height: 100px;
+    width: 76.86px;
+    height: 102.57px;
     object-fit: cover;
+    display: block;
 }
+
 
 .modal-actions {
     display: flex;
