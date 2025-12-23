@@ -12,10 +12,7 @@ function displayGallery(list) {
     gallery.innerHTML = "";
     list.forEach(work => {
         const figure = document.createElement("figure");
-        figure.innerHTML = `
-            <img src="${work.imageUrl}">
-            <figcaption>${work.title}</figcaption>
-        `;
+        figure.innerHTML = `<img src="${work.imageUrl}"><figcaption>${work.title}</figcaption>`;
         gallery.appendChild(figure);
     });
 }
@@ -25,12 +22,7 @@ function displayModalGallery(list) {
     modalGallery.innerHTML = "";
     list.forEach(work => {
         const figure = document.createElement("figure");
-        figure.innerHTML = `
-            <img src="${work.imageUrl}">
-            <button class="btn-del-icon">
-                <i class="fa-solid fa-trash"></i>
-            </button>
-        `;
+        figure.innerHTML = `<img src="${work.imageUrl}"><button class="btn-del-icon"><i class="fa-solid fa-trash"></i></button>`;
         figure.querySelector("button").onclick = () => deleteWork(work.id);
         modalGallery.appendChild(figure);
     });
@@ -39,9 +31,7 @@ function displayModalGallery(list) {
 async function deleteWork(id) {
     const res = await fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     });
     if (res.ok) {
         works = works.filter(w => w.id !== id);
@@ -82,10 +72,22 @@ function fillSelect(categories) {
 
 function checkLoginStatus() {
     const token = localStorage.getItem("token");
+    const loginBtn = document.querySelector("#login-btn");
+    const logoutBtn = document.querySelector("#logout-btn");
     if (token) {
         document.querySelector("#edit-banner").style.display = "block";
         document.querySelector("#div-container").style.display = "none";
         document.querySelector("#edit-button").style.display = "block";
+        loginBtn.classList.add("hidden");
+        logoutBtn.classList.remove("hidden");
+        logoutBtn.onclick = () => {
+            localStorage.removeItem("token");
+            location.reload();
+        };
+    } else {
+        loginBtn.classList.remove("hidden");
+        logoutBtn.classList.add("hidden");
+        loginBtn.onclick = () => location.href = "./login.html";
     }
 }
 
@@ -131,13 +133,10 @@ const uploadZone = document.querySelector(".upload-zone");
 fileInput.onchange = e => {
     const file = e.target.files[0];
     if (!file) return;
-
     uploadZone.querySelector("i").style.display = "none";
     uploadZone.querySelector("label").style.display = "none";
     uploadZone.querySelector("p").style.display = "none";
-
     uploadZone.querySelector("img")?.remove();
-
     const reader = new FileReader();
     reader.onload = ev => {
         const img = document.createElement("img");
@@ -152,26 +151,19 @@ const form = document.querySelector("#add-work-form");
 
 form.onsubmit = async e => {
     e.preventDefault();
-
     const title = form.title.value.trim();
     const category = form.category.value;
     const image = fileInput.files[0];
-
     if (!title || !category || !image) return;
-
     const data = new FormData();
     data.append("title", title);
     data.append("category", category);
     data.append("image", image);
-
     const res = await fetch("http://localhost:5678/api/works", {
         method: "POST",
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         body: data
     });
-
     if (res.ok) {
         const newWork = await res.json();
         works.push(newWork);

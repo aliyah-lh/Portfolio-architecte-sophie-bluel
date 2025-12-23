@@ -14,11 +14,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 	<script src="./js/app.js" defer></script>
 </head>
-<div id="edit-banner" class="hidden">
-	<p><i class="fa-regular fa-pen-to-square"></i> Mode édition</p>
-</div>
+
 
 <body>
+	<div id="edit-banner" class="hidden">
+		<p><i class="fa-regular fa-pen-to-square"></i> Mode édition</p>
+	</div>
 
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -26,9 +27,11 @@
 			<ul>
 				<li><a href="#portfolio">projets</a></li>
 				<li><a href="#contact">contact</a></li>
-				<li><a href="./login.html">login</a></li>
+				<li><a href="#" id="login-btn">Login</a></li>
+				<li><a href="#" id="logout-btn" class="hidden">Logout</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
+
 		</nav>
 	</header>
 	<main>
@@ -116,11 +119,11 @@
 						<p>jpg, png : 4mo max</p>
 					</div>
 					<div class="position">
-					<label>Titre</label>
-					<input type="text" name="title" required>
+						<label>Titre</label>
+						<input type="text" name="title" required>
 
-					<label>Catégorie</label>
-					<select name="category" id="category-select"></select>
+						<label>Catégorie</label>
+						<select name="category" id="category-select"></select>
 					</div>
 
 					<button type="submit" class="btn-primary">Valider</button>
